@@ -14,9 +14,50 @@
 </head>
 
 <body>
-  <h1 class="text-danger">Hello world!</h1>
+  <div class="container-fluid">
+    <h1 class="text-info h3 text-center my-3">Welcome to the awesome book library!</h1>
+
+    <div class="row">
+      <section class="add_book col-10 mx-auto my-3">
+        <form onsubmit="addBookToLibrary(event, myLibrary)">
+          <div class="form-row">
+            <div class="col-12 my-1 my-md-0 col-md">
+              <input type="text" name="title" id="title" class="form-control" required minlength=2 maxlength=30
+                placeholder="Title">
+            </div>
+            <div class="col-12 my-1 my-md-0 col-md">
+              <input type="text" name="author" id="author" class="form-control" required minlength=2 maxlength=30
+                placeholder="Author">
+            </div>
+            <div class="col-12 my-1 my-md-0 col-md">
+              <input type="number" name="pages" id="pages" class="form-control" required placeholder="Pages" min=1
+                max=1000>
+            </div>
+            <div class="col-12 my-1 my-md-0 col-md">
+              <select class="form-control" required name="read" id="read">
+                <option value="true">Yes</option>
+                <option value="false" selected>No</option>
+              </select>
+            </div>
+            <div class="col-12 my-1 my-md-0 col-md">
+              <button type="submit" class="btn btn-info w-100">Add
+                book</button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <div class="row">
+      <section id="book-library" class="col-10 mx-auto my-3">
+      </section>
+    </div>
+  </div>
 
   <script type="text/javascript" src="assets/javascript/app.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+    crossorigin="anonymous"></script>
   <script type="text/javascript"
     src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
