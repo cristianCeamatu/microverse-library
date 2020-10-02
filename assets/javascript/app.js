@@ -11,9 +11,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const myLibraryRef = firebase.database().ref('myLibrary');
 
-function createBookNode(book, index) {
+function createBookNode(book) {
   const article = document.createElement('article');
-  article.className = 'card col-md-4 col-lg-3 border-0';
+  article.className = 'card col-12 col-sm-6 col-md-4 col-lg-3 border-0 mb-3';
 
   article.innerHTML = `
   <div class="card-body shadow">
@@ -31,15 +31,15 @@ function createBookNode(book, index) {
     <p class="card-text">Pages: <span id="pages">${book.pages}</span></p>
     <div class="read-container d-flex align-items-center justify-content-between">
       <p class="card-text mb-0">Read: <span id="read">${
-        book.read === true ? 'Yes' : 'No'
-      }</span></p>
+  book.read === true ? 'Yes' : 'No'
+}</span></p>
       <i class="fas ${
-        book.read === true
-          ? 'fa-toggle-on text-success'
-          : 'fa-toggle-off text-warning'
-      } h4 mb-0" class="read-toggler" onclick="toggleReadStatus(this, ${
-    book.read
-  })" data-id=${book.id}></i>
+  book.read === true
+    ? 'fa-toggle-on text-success'
+    : 'fa-toggle-off text-warning'
+} h4 mb-0" class="read-toggler" onclick="toggleReadStatus(this, ${
+  book.read
+})" data-id=${book.id}></i>
     </div>
   </div>`;
 
@@ -50,18 +50,16 @@ function render(library) {
   const libraryContainer = document.querySelector('#book-library');
   const booksContainer = document.createElement('div');
   booksContainer.className = 'row';
-  library.forEach((book, index) =>
-    booksContainer.appendChild(createBookNode(book, index))
-  );
+  library.forEach((book, index) => booksContainer.appendChild(createBookNode(book, index)));
   libraryContainer.innerHTML = '';
   libraryContainer.appendChild(booksContainer);
 }
 
 function snapshotToArray(snapshot) {
-  let returnArr = [];
+  const returnArr = [];
 
-  snapshot.forEach(function (childSnapshot) {
-    let item = childSnapshot.val();
+  snapshot.forEach((childSnapshot) => {
+    const item = childSnapshot.val();
     item.id = childSnapshot.key;
 
     returnArr.push(item);
@@ -82,10 +80,9 @@ function Book(title, author, pages, read = false) {
 }
 
 function createBookFromInputs(e) {
-  let [title, author, pages, read] = [...e.target.elements].map(
-    (el) => el.value
-  );
-  read = read === 'true' ? true : false;
+  const inputs = [...e.target.elements].map((el) => el.value);
+  const [title, author, pages] = inputs;
+  const [read] = inputs;
   return new Book(title, author, pages, read);
 }
 
