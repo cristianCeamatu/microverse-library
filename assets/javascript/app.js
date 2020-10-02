@@ -37,9 +37,7 @@ function createBookNode(book) {
   book.read === true
     ? 'fa-toggle-on text-success'
     : 'fa-toggle-off text-warning'
-} h4 mb-0" class="read-toggler" onclick="toggleReadStatus(this, ${
-  book.read
-})" data-id=${book.id}></i>
+} h4 mb-0" data-id=${book.id} data-read=${book.read}></i>
     </div>
   </div>`;
 
