@@ -1,13 +1,15 @@
-function Book(title, author, pages, read = false) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-}
-
-Book.prototype.toggleRead = function () {
-  this.read = !this.read;
+const firebaseConfig = {
+  apiKey: 'AIzaSyDTWDCS8e6dTp65QX0BD4kwHEaPLGOcxUM',
+  authDomain: 'book-library-fe8b3.firebaseapp.com',
+  databaseURL: 'https://book-library-fe8b3.firebaseio.com',
+  projectId: 'book-library-fe8b3',
+  storageBucket: 'book-library-fe8b3.appspot.com',
+  messagingSenderId: '188690877990',
+  appId: '1:188690877990:web:72636a06276e7c9acc60e7',
 };
+
+firebase.initializeApp(firebaseConfig);
+const myLibraryRef = firebase.database().ref('myLibrary');
 
 function createBookNode(book, index) {
   const article = document.createElement('article');
@@ -21,7 +23,7 @@ function createBookNode(book, index) {
         id="remove-book"
         type="submit"
         class="text-danger"
-        onclick="removeBook(myLibrary, ${index})">
+        onclick="removeBook('${book.id}')">
         <i class="fas fa-trash-alt"></i>
       </button>
     </div>
@@ -35,19 +37,13 @@ function createBookNode(book, index) {
         book.read === true
           ? 'fa-toggle-on text-success'
           : 'fa-toggle-off text-warning'
-      } h4 mb-0" id="read-toggler" onclick="toggleReadStatus(myLibrary, ${index})"></i>
+      } h4 mb-0" class="read-toggler" onclick="toggleReadStatus(this, ${
+    book.read
+  })" data-id=${book.id}></i>
     </div>
   </div>`;
 
   return article;
-}
-
-function createBookFromInputs(e) {
-  let [title, author, pages, read] = [...e.target.elements].map(
-    (el) => el.value
-  );
-  read = read === 'true' ? true : false;
-  return new Book(title, author, pages, read);
 }
 
 function render(library) {
@@ -61,32 +57,56 @@ function render(library) {
   libraryContainer.appendChild(booksContainer);
 }
 
-function addBookToLibrary(event, library) {
-  event.preventDefault();
-  book = createBookFromInputs(event);
-  library.push(book);
-  event.target.reset();
-  render(myLibrary);
+function snapshotToArray(snapshot) {
+  let returnArr = [];
+
+  snapshot.forEach(function (childSnapshot) {
+    let item = childSnapshot.val();
+    item.id = childSnapshot.key;
+
+    returnArr.push(item);
+  });
+
+  return returnArr;
 }
 
-function removeBook(library, index) {
-  library.splice(index, 1);
-  render(library);
+myLibraryRef.on('value', (snap) => {
+  render(snapshotToArray(snap));
+});
+
+function Book(title, author, pages, read = false) {
+  this.title = title;
+  this.author = author;
+  this.pages = pages;
+  this.read = read;
 }
 
-function toggleReadStatus(library, index) {
-  library[index].toggleRead();
-  render(library);
+function createBookFromInputs(e) {
+  let [title, author, pages, read] = [...e.target.elements].map(
+    (el) => el.value
+  );
+  read = read === 'true' ? true : false;
+  return new Book(title, author, pages, read);
 }
 
-myLibrary = [];
-myLibrary.push(new Book('First book', 'First Author', 234, true));
-myLibrary.push(new Book('Second book', 'Second Author', 1234, false));
-function saveToLocalStorage(data) {
-  myLibrary = JSON.parse(localStorage.getItem('myLibrary')) || [];
-  myLibrary.push(data);
-  // Alert the array value
-  localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+function addBookToLibrary(e) {
+  e.preventDefault();
+
+  const book = createBookFromInputs(e);
+
+  const newBookRef = myLibraryRef.push();
+  newBookRef.set(book);
+
+  e.target.reset();
 }
 
-render(myLibrary);
+function removeBook(id) {
+  const removeBookRef = myLibraryRef.child(id);
+  removeBookRef.remove();
+}
+
+function toggleReadStatus(target, value) {
+  const id = target.getAttribute('data-id');
+  const bookRef = myLibraryRef.child(id);
+  bookRef.update({ read: !value });
+}
