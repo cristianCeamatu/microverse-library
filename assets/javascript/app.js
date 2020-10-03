@@ -31,15 +31,15 @@ function createBookNode(book) {
     <p class="card-text">Pages: <span id="pages">${book.pages}</span></p>
     <div class="read-container d-flex align-items-center justify-content-between">
       <p class="card-text mb-0">Read: <span id="read">${
-        book.read === true ? 'Yes' : 'No'
-      }</span></p>
+  book.read === true ? 'Yes' : 'No'
+}</span></p>
       <i class="fas ${
-        book.read === true
-          ? 'fa-toggle-on text-success'
-          : 'fa-toggle-off text-warning'
-      } h4 mb-0" class="read-toggler" onclick="toggleReadStatus(this, ${
-    book.read
-  })" data-id=${book.id}></i>
+  book.read === true
+    ? 'fa-toggle-on text-success'
+    : 'fa-toggle-off text-warning'
+} h4 mb-0" class="read-toggler" onclick="toggleReadStatus(this, ${
+  book.read
+})" data-id=${book.id}></i>
     </div>
   </div>`;
 
@@ -50,9 +50,7 @@ function render(library) {
   const libraryContainer = document.querySelector('#book-library');
   const booksContainer = document.createElement('div');
   booksContainer.className = 'row';
-  library.forEach((book, index) =>
-    booksContainer.appendChild(createBookNode(book, index))
-  );
+  library.forEach((book, index) => booksContainer.appendChild(createBookNode(book, index)));
   libraryContainer.innerHTML = '';
   libraryContainer.appendChild(booksContainer);
 }
@@ -83,8 +81,9 @@ function Book(title, author, pages, read = false) {
 
 function createBookFromInputs(e) {
   const inputs = [...e.target.elements].map((el) => el.value);
-  let [title, author, pages] = inputs;
+  const [title, author, pages] = inputs;
   let [read] = inputs;
+  read = read === 'true';
   return new Book(title, author, pages, read);
 }
 
@@ -105,7 +104,6 @@ function removeBook(id) {
 }
 
 function toggleReadStatus(target, value) {
-  console.log(target);
   const id = target.getAttribute('data-id');
   const bookRef = myLibraryRef.child(id);
   bookRef.update({ read: !value });
