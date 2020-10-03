@@ -79,6 +79,13 @@ function Book(title, author, pages, read = false) {
   this.read = read;
 }
 
+function toggleBookForm() {
+  document.querySelector('#add-book-button').classList.toggle('hide');
+  document.querySelector('#add-book-form').classList.toggle('show');
+}
+
+document.querySelector('#add-book-button').addEventListener('click', toggleBookForm);
+
 function createBookFromInputs(e) {
   const inputs = [...e.target.elements].map((el) => el.value);
   const [title, author, pages] = inputs;
@@ -96,6 +103,7 @@ function addBookToLibrary(e) {
   newBookRef.set(book);
 
   e.target.reset();
+  toggleBookForm();
 }
 
 function removeBook(id) {
@@ -106,5 +114,7 @@ function removeBook(id) {
 function toggleReadStatus(target, value) {
   const id = target.getAttribute('data-id');
   const bookRef = myLibraryRef.child(id);
-  bookRef.update({ read: !value });
+  bookRef.update({
+    read: !value,
+  });
 }

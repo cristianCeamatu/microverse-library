@@ -19,7 +19,7 @@
 
     <div class="row">
       <section class="add_book col-10 mx-auto my-3">
-        <form onsubmit="addBookToLibrary(event)">
+        <form onsubmit="addBookToLibrary(event)" id="add-book-form">
           <div class="form-row">
             <div class="col-12 my-1 my-md-0 col-md">
               <input type="text" name="title" id="title" class="form-control" required minlength=2 maxlength=30
@@ -45,6 +45,10 @@
             </div>
           </div>
         </form>
+
+        <div class="button-container text-center">
+          <button id="add-book-button" class="btn btn-info mx-auto">Add book</button>
+        </div>
       </section>
     </div>
 

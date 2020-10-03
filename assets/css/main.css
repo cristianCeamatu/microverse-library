@@ -17,3 +17,12 @@ button:hover {
 
 .card-body:hover {
   transform: scale(1.05); }
+
+form {
+  display: none; }
+
+.hide {
+  display: none; }
+
+.show {
+  display: block; }
