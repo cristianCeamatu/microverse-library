@@ -4,13 +4,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="favicon.png" type="image/png">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+    crossorigin="anonymous" />
   <link rel="stylesheet" href="assets/css/main.css">
-  <title>Document</title>
+  <title>Book Library</title>
 </head>
 
 <body>
-  <h1>Hello world!</h1>
+  <div class="container-fluid">
+    <h1 class="text-info h3 text-center my-3">Welcome to the awesome book library!</h1>
 
+    <div class="row">
+      <section class="add_book col-10 mx-auto my-3">
+        <form onsubmit="addBookToLibrary(event)" id="add-book-form">
+          <div class="form-row">
+            <div class="col-12 my-1 my-md-0 col-md">
+              <input type="text" name="title" id="title" class="form-control" required minlength=2 maxlength=30
+                placeholder="Title">
+            </div>
+            <div class="col-12 my-1 my-md-0 col-md">
+              <input type="text" name="author" id="author" class="form-control" required minlength=2 maxlength=30
+                placeholder="Author">
+            </div>
+            <div class="col-12 my-1 my-md-0 col-md">
+              <input type="number" name="pages" id="pages" class="form-control" required placeholder="Pages" min=1
+                max=1000>
+            </div>
+            <div class="col-12 my-1 my-md-0 col-md">
+              <select class="form-control" required name="read" id="read">
+                <option value="true">Read</option>
+                <option value="false" selected>Not read</option>
+              </select>
+            </div>
+            <div class="col-12 my-1 my-md-0 col-md">
+              <button type="submit" class="btn btn-info w-100">Add
+                book</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="button-container text-center">
+          <button id="add-book-button" class="btn btn-info mx-auto">Add book</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="row">
+      <section id="book-library" class="col-10 mx-auto my-3">
+      </section>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-database.js"></script>
   <script type="text/javascript" src="assets/javascript/app.js"></script>
 </body>
 
