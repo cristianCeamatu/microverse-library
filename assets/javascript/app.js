@@ -25,10 +25,6 @@ snapshotToArray = (snapshot) => {
 };
 
 class Library {
-  constructor(library = {}) {
-    this.library = library;
-  }
-
   createBook(title, author, pages, read) {
     this.book = {
       title,
